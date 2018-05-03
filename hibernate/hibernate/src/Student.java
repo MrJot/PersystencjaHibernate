@@ -1,23 +1,56 @@
 import java.util.Set;
 
-@SuppressWarnings("serial")
-public class Student implements java.io.Serializable {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-	private long id;
+@SuppressWarnings("serial")
+@Entity
+@Table(name="students")
+public class Student implements java.io.Serializable {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private int id;
+	
+	@Column(name="name")
 	private String name;
+	@Column(name="surname")
 	private String surname;
+	@Column(name="pesel")
 	private String pesel;
 
+	@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinColumn(name="class_id")
+	private SchoolClass schoolClass;
+
+
+	public SchoolClass getSchoolClass() {
+		return schoolClass;
+	}
 
 
 
-	public long getId() {
+	public void setSchoolClass(SchoolClass schoolClass) {
+		this.schoolClass = schoolClass;
+	}
+
+
+
+	public int getId() {
 		return id;
 	}
 
 
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -1,12 +1,35 @@
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="schoolClasses")
 public class SchoolClass implements java.io.Serializable {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private long id;
+	
+	@Column(name = "startYear")
 	private int startYear;
+	@Column(name="currentYear")
 	private int currentYear;
+	@Column(name = "profile")
 	private String profile;
 	
+	@OneToMany(mappedBy="schoolClass",
+			cascade= {CascadeType.DETACH,CascadeType.MERGE,
+					  CascadeType.PERSIST,CascadeType.REFRESH})
 	private Set <Student> studList;
 
 
@@ -55,5 +78,15 @@ public class SchoolClass implements java.io.Serializable {
 
 	public String toString() {
 		return "Class: " + profile + " (Started: " + getStartYear() + ", Current year: " + getCurrentYear() + ")";
+	}
+	
+	
+	public void add(Student student) {
+		if(studList==null) {
+			studList=new HashSet<Student>();
+		}else {
+			studList.add(student);
+			student.setSchoolClass(this);
+		}
 	}
 }
