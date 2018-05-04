@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,37 +9,49 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-//@SuppressWarnings("serial")
+@SuppressWarnings("serial")
 @Entity
-@Table(name="students")
+@Table(name="schools")
 public class School implements java.io.Serializable {
 
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private long id;
+	private int id;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name="adress")
+	@Column(name="address")
 	private String address;
 	
-	@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinColumn(name="school_id")
+	@OneToMany(mappedBy="school",
+			cascade= {CascadeType.DETACH,CascadeType.MERGE,
+					  CascadeType.PERSIST,CascadeType.REFRESH})
 	private Set<SchoolClass> classes;
 
 	public School() {
 	}
+	
+	
 
-	public long getId() {
+	public School(String name, String address) {
+		super();
+		this.name = name;
+		this.address = address;
+	}
+
+
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -71,5 +84,16 @@ public class School implements java.io.Serializable {
 	public String toString() {
 		return "School: " + getName() + " (" + getAddress() + ")";
 }
+	
+	public void add(SchoolClass schoolClass) {
+		if(classes==null) {
+			classes=new HashSet<SchoolClass>();
+			classes.add(schoolClass);
+			schoolClass.setSchool(this);
+		}else {
+			classes.add(schoolClass);
+			schoolClass.setSchool(this);
+		}
+	}
 
 }

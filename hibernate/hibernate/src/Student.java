@@ -56,6 +56,20 @@ public class Student implements java.io.Serializable {
 
 
 
+	public Student(String name, String surname, String pesel) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.pesel = pesel;
+		this.schoolClass = schoolClass;
+	}
+	
+	public Student() {
+		
+	}
+
+
+
 	public String getName() {
 		return name;
 	}

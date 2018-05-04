@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,7 +19,7 @@ public class SchoolClass implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private long id;
+	private int id;
 	
 	@Column(name = "startYear")
 	private int startYear;
@@ -27,10 +28,39 @@ public class SchoolClass implements java.io.Serializable {
 	@Column(name = "profile")
 	private String profile;
 	
+
+
 	@OneToMany(mappedBy="schoolClass",
 			cascade= {CascadeType.DETACH,CascadeType.MERGE,
 					  CascadeType.PERSIST,CascadeType.REFRESH})
 	private Set <Student> studList;
+	
+	
+	
+	@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,
+						 CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinColumn(name="school_id")
+	private School school;
+
+	public SchoolClass(int startYear, int currentYear, String profile) {
+		this.startYear = startYear;
+		this.currentYear = currentYear;
+		this.profile = profile;
+	}
+	
+	public SchoolClass() {
+	}
+
+
+	public School getSchool() {
+		return school;
+	}
+
+
+
+	public void setSchool(School school) {
+		this.school = school;
+	}
 
 
 
@@ -44,11 +74,11 @@ public class SchoolClass implements java.io.Serializable {
 		this.studList = studList;
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -84,6 +114,8 @@ public class SchoolClass implements java.io.Serializable {
 	public void add(Student student) {
 		if(studList==null) {
 			studList=new HashSet<Student>();
+			studList.add(student);
+			student.setSchoolClass(this);
 		}else {
 			studList.add(student);
 			student.setSchoolClass(this);
