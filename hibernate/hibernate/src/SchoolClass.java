@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,6 +28,15 @@ public class SchoolClass implements java.io.Serializable {
 	private int startYear;
 	@Column(name="currentYear")
 	private int currentYear;
+	public List<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(List<Teacher> teachers) {
+		this.teachers = teachers;
+	}
+
+
 	@Column(name = "profile")
 	private String profile;
 	
@@ -42,6 +54,16 @@ public class SchoolClass implements java.io.Serializable {
 						 CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name="school_id")
 	private School school;
+	
+	@ManyToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,
+			CascadeType.MERGE,CascadeType.PERSIST,
+			CascadeType.REFRESH})
+	@JoinTable(
+			name="teacher_class", 
+			joinColumns=@JoinColumn(name="class_id"),
+			inverseJoinColumns=@JoinColumn(name="teacher_id")
+					)
+	private List<Teacher> teachers;
 
 	public SchoolClass(int startYear, int currentYear, String profile) {
 		this.startYear = startYear;

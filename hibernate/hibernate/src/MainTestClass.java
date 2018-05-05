@@ -32,7 +32,7 @@ public class MainTestClass {
 		}
 */
 		
-		Queries.changeSchooolAdress("ul. Sobieskiego 45", 1);
+		ManyToManyTestDrive.createTeacherAndClasses();
 		
 		//MainTestClass.printStudentsUsingClassName("bio-chem");
 	}
