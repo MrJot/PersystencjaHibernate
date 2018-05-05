@@ -9,13 +9,8 @@ public class MainTestClass {
 	public static void main(String[] args) {
 
 		//Add School, schoolClass, Student
-		/*
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(School.class)
-				.addAnnotatedClass(SchoolClass.class)
-				.addAnnotatedClass(Student.class)
-				.buildSessionFactory();
+/*
+		SessionFactory factory = Factory.factorySetup();
 		Session session = factory.getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -37,46 +32,20 @@ public class MainTestClass {
 		}
 */
 		
-		MainTestClass.printStudentsUsingClassName("bio-chem");
+		Queries.changeSchooolAdress("ul. Sobieskiego 45", 1);
+		
+		//MainTestClass.printStudentsUsingClassName("bio-chem");
 	}
 	
 	//Printing Students enrolled to specific class profile
 
-	public static void printStudentsUsingClassName(String keyWord) {
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Student.class)
-				.addAnnotatedClass(SchoolClass.class)
-				.addAnnotatedClass(School.class)
-				.buildSessionFactory();
-		Session session = factory.getCurrentSession();
-		try {
-			session.beginTransaction();
-			List<SchoolClass> schoolClass = session.createQuery("from SchoolClass s where s.profile LIKE '%"+keyWord+"'").getResultList();
-			System.out.println("Students enrolled to "+keyWord+" class:");
-			for(SchoolClass s:schoolClass) {
-				for(Student stu:s.getStudList()) {
-					System.out.println(stu.getName()+" "+stu.getSurname()+" ,PESEL "+stu.getPesel());
-				}
-			}
-			session.getTransaction().commit();
-		}
-		finally {
-			session.close();
-			factory.close();
-		}
-	}
+	
 	
 	
 	
 	// Added new student to specific class profile
 	public static void addNewStudent(String profileName, String studentName, String studentSurname, String pesel) {
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Student.class)
-				.addAnnotatedClass(SchoolClass.class)
-				.addAnnotatedClass(School.class)
-				.buildSessionFactory();
+		SessionFactory factory = Factory.factorySetup();
 		Session session = factory.getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -90,6 +59,10 @@ public class MainTestClass {
 			session.close();
 			factory.close();
 		}
+	}
+	
+	public static void findSchoolsWithSpecificName(String schoolName) {
+		
 	}
 	
 

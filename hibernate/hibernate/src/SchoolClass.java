@@ -30,6 +30,7 @@ public class SchoolClass implements java.io.Serializable {
 	
 
 
+
 	@OneToMany(mappedBy="schoolClass",
 			cascade= {CascadeType.DETACH,CascadeType.MERGE,
 					  CascadeType.PERSIST,CascadeType.REFRESH})
