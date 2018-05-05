@@ -1,6 +1,12 @@
+package persist.setup.files;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import persist.src.School;
+import persist.src.SchoolClass;
+import persist.src.Student;
+import persist.src.Teacher;
 
 public class Factory {
 	
@@ -14,6 +20,7 @@ public class Factory {
 				.buildSessionFactory();
 		return factory;
 	}
+	
 	
 
 }

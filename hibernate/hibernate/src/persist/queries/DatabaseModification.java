@@ -1,18 +1,27 @@
+package persist.queries;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import persist.setup.files.Factory;
+import persist.src.School;
+import persist.src.SchoolClass;
+import persist.src.Student;
+
 public class DatabaseModification {
 	
+	/**
+	Dodawanie szkoly, klasy i studentów
+	*/
 	public static void addSchoolClassStudents(){
 		SessionFactory factory = Factory.factorySetup();
 		Session session = factory.getCurrentSession();
 		try {
 			session.beginTransaction();
-			School school = new School("Krakowskie LO", "Al. Pokoju 18");
-			SchoolClass schoolClass = new SchoolClass(2008, 4, "bio-chem");
-			Student student = new Student("Adam", "Kromka", "3214242121");
+			School school = new School("LO im. Mikolaja Reja", "Al. Niepodleglosci 56");
+			SchoolClass schoolClass = new SchoolClass(2008, 4, "artystyczny");
+			Student student = new Student("Adam", "Misztal", "00001111000");
 			session.save(school);
 			school.add(schoolClass);
 			session.save(schoolClass);
@@ -28,9 +37,10 @@ public class DatabaseModification {
 		}
 	}
 	
-	//Zmień adres znalezionej szkoły i zapisz zmiany przy użyciu 
-	//znanych Ci już metod (Podpowiedź: patrz kod dotyczące tworzenia dodawania nowych obiektów).
-	
+	/**
+	Zmień adres znalezionej szkoły i zapisz zmiany przy użyciu 
+	znanych Ci już metod (Podpowiedź: patrz kod dotyczące tworzenia dodawania nowych obiektów).
+	*/
 	public static void changeSchooolAdress(String address, int schoolId) {
 		SessionFactory factory = Factory.factorySetup();
 		Session session = factory.getCurrentSession();
@@ -46,8 +56,10 @@ public class DatabaseModification {
 		}
 	}
 	
-	//Wykorzystując funkcję session.delete() i analogię do tworzenia obiektów, usuń wszystkie odnalezione w powyższym punkcie szkoły.
-	
+	/**
+	Wykorzystując funkcję session.delete() i analogię do tworzenia 
+	obiektów, usuń wszystkie odnalezione w powyższym punkcie szkoły.
+	*/
 	public static void deleteSchoolsUsingName(String schoolName) {
 		SessionFactory factory = Factory.factorySetup();
 		Session session = factory.getCurrentSession();
@@ -64,6 +76,27 @@ public class DatabaseModification {
 			factory.close();
 		}
 	}
+	
+	
+	/**
+	Dodanie studenta do  klasy o wybranym profilu. Przyjeto klase o id=14
+	*/
+		public static void addNewStudent(String studentName, String studentSurname, String pesel) {
+			SessionFactory factory = Factory.factorySetup();
+			Session session = factory.getCurrentSession();
+			try {
+				session.beginTransaction();
+				int schoolClassid = 14;
+				SchoolClass sclass = session.get(SchoolClass.class, schoolClassid);
+				Student student = new Student(studentName, studentSurname, pesel);
+				session.save(student);
+				session.getTransaction().commit();
+			}
+			finally {
+				session.close();
+				factory.close();
+			}
+		}
 	
 	
 

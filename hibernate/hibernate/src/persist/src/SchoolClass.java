@@ -1,3 +1,5 @@
+package persist.src;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -143,5 +145,12 @@ public class SchoolClass implements java.io.Serializable {
 			studList.add(student);
 			student.setSchoolClass(this);
 		}
+	}
+	
+	public void add(Teacher teacher) {
+		if (teachers==null) {
+			teachers = new ArrayList<Teacher>();
+		}
+		teachers.add(teacher);
 	}
 }
