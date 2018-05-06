@@ -57,8 +57,8 @@ public class ManyToManyTestDrive {
 		try {
 			session.beginTransaction();
 			SchoolClass tempClass= new SchoolClass(2012, 1, "religijno-przemyslowy");
-			Teacher teacher_one = new Teacher("Tadeusz", "Rydzyk", "rydzyk@buziaczek.pl");
-			Teacher teacher_two = new Teacher("Antoni", "Macierewicz","macierewicz@gmail.com");
+			Teacher teacher_one = new Teacher("Grzegorz", "Masztalski", "maszta@buziaczek.pl");
+			Teacher teacher_two = new Teacher("Antoni", "Kruppe","kruppe@gmail.com");
 			tempClass.add(teacher_one);
 			tempClass.add(teacher_two);
 			session.save(tempClass);
