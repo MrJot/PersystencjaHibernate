@@ -29,7 +29,7 @@ public class Main {
 //		DatabaseModification.deleteSchoolsUsingName("AGH");
 //		
 //		//ManyToManyRelation
-		ManyToManyTestDrive.createClassAndTeachers();
+//		ManyToManyTestDrive.createClassAndTeachers();
 //		ManyToManyTestDrive.createTeacherAndClasses();
 //		ManyToManyTestDrive.findClassesBasedOnTeacherName("Maziarz");
 //		ManyToManyTestDrive.findTeachersBasedonClassProfile("mat-fiz");
